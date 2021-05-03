@@ -2,3 +2,11 @@ demo for python threading and multiprocessing
 
 including simple benchmark to show that threading
 does not improve performance if it is cpu bound
+
+Copyright Lesmana Zimmer lesmana@gmx.de
+
+This program is free software.
+It is licensed under the WTFPL version 2.
+That means that you can do what the fuck
+you want to with this program.
+For details see http://www.wtfpl.net/about/
