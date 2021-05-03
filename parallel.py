@@ -11,11 +11,19 @@ JOBCOUNT = 10
 WORKCOUNT = 10_000_000
 
 def main():
-  serial()
-  thread()
-  threadpool()
-  process()
-  processpool()
+  timed(serial)
+  timed(thread)
+  timed(threadpool)
+  timed(process)
+  timed(processpool)
+
+def timed(func):
+  print('-----------------')
+  print(func.__name__)
+  begin = time.time()
+  func()
+  end = time.time()
+  print(func.__name__, end-begin)
 
 def work(i):
   print(i, 'start')
@@ -28,19 +36,11 @@ def workresults(i, results):
   results.put(iresult)
 
 def serial():
-  print('-----------------')
-  print('serial')
-  begin = time.time()
   for i in range(1, JOBCOUNT):
     i, result = work(i)
     print(i, result)
-  end = time.time()
-  print('serial: ', end-begin)
 
 def thread():
-  print('-----------------')
-  print('thread')
-  begin = time.time()
   results = queue.Queue()
   jobs = []
   for i in range(1, JOBCOUNT):
@@ -51,23 +51,13 @@ def thread():
     job.join()
     i, result = results.get()
     print(i, result)
-  end = time.time()
-  print('thread: ', end-begin)
 
 def threadpool():
-  print('-----------------')
-  print('threadpool')
-  begin = time.time()
   with concurrent.futures.ThreadPoolExecutor() as executor:
      for i, result in executor.map(work, range(1, JOBCOUNT)):
        print(i, result)
-  end = time.time()
-  print('threadpool: ', end-begin)
 
 def process():
-  print('-----------------')
-  print('process')
-  begin = time.time()
   results = multiprocessing.Queue()
   jobs = []
   for i in range(1, JOBCOUNT):
@@ -78,18 +68,11 @@ def process():
     job.join()
     i, result = results.get()
     print(i, result)
-  end = time.time()
-  print('process: ', end-begin)
 
 def processpool():
-  print('-----------------')
-  print('processpool')
-  begin = time.time()
   with concurrent.futures.ProcessPoolExecutor() as executor:
      for i, result in executor.map(work, range(1, JOBCOUNT)):
        print(i, result)
-  end = time.time()
-  print('processpool: ', end-begin)
 
 if __name__ == '__main__':
   main()
