@@ -1,0 +1,4 @@
+demo for python threading and multiprocessing
+
+including simple benchmark to show that threading
+does not improve performance if it is cpu bound
